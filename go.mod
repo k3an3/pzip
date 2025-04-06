@@ -1,4 +1,4 @@
-module github.com/ybirader/pzip
+module github.com/k3an3/pzip
 
 go 1.23.0
 

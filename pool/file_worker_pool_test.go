@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/alecthomas/assert/v2"
-	"github.com/ybirader/pzip/pool"
+	"github.com/k3an3/pzip/pool"
 )
 
 func TestFileWorkerPool(t *testing.T) {

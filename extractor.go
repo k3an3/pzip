@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/k3an3/pzip/pool"
 	"github.com/klauspost/compress/zip"
-	"github.com/ybirader/pzip/pool"
 )
 
 type extractor struct {

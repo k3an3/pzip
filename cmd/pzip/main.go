@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"runtime"
 
-	"github.com/ybirader/pzip"
+	"github.com/k3an3/pzip"
 )
 
 const description = "pzip is a tool for archiving files concurrently."

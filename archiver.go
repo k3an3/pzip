@@ -13,8 +13,8 @@ import (
 	"sync"
 	"unicode/utf8"
 
+	"github.com/k3an3/pzip/pool"
 	"github.com/klauspost/compress/zip"
-	"github.com/ybirader/pzip/pool"
 )
 
 const (

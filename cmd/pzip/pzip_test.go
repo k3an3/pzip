@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/alecthomas/assert/v2"
-	"github.com/ybirader/pzip/adapters/cli"
-	"github.com/ybirader/pzip/internal/testutils"
-	"github.com/ybirader/pzip/specifications"
+	"github.com/k3an3/pzip/adapters/cli"
+	"github.com/k3an3/pzip/internal/testutils"
+	"github.com/k3an3/pzip/specifications"
 )
 
 const (
