@@ -1,7 +1,6 @@
 package pzip
 
 import (
-	"archive/zip"
 	"bufio"
 	"context"
 	"fmt"
@@ -14,6 +13,7 @@ import (
 	"sync"
 	"unicode/utf8"
 
+	"github.com/klauspost/compress/zip"
 	"github.com/ybirader/pzip/pool"
 )
 
@@ -32,19 +32,18 @@ var bufferPool = sync.Pool{
 }
 
 type archiver struct {
-	xArchive            *os.File
-	concurrency         int
-	w                   *zip.Writer
-	fileProcessPool     pool.WorkerPool[pool.File]
-	fileWriterPool      pool.WorkerPool[pool.File]
-	chroot              string
-	absoluteArchivePath string
+	xArchive        io.Writer
+	concurrency     int
+	w               *zip.Writer
+	fileProcessPool pool.WorkerPool[pool.File]
+	fileWriterPool  pool.WorkerPool[pool.File]
+	chroot          string
 }
 
 // NewArchiver returns a new pzip archiver. The archiver can be configured by passing in a number of options.
 // Available options include ArchiverConcurrency(n int). It returns an error if the archiver can't be created
 // Close() should be called on the returned archiver when done
-func NewArchiver(archive *os.File, options ...archiverOption) (*archiver, error) {
+func NewArchiver(archive io.Writer, options ...archiverOption) (*archiver, error) {
 	a := &archiver{
 		xArchive:    archive,
 		w:           zip.NewWriter(archive),
@@ -52,10 +51,6 @@ func NewArchiver(archive *os.File, options ...archiverOption) (*archiver, error)
 	}
 
 	var err error
-	a.absoluteArchivePath, err = filepath.Abs(archive.Name())
-	if err != nil {
-		return nil, fmt.Errorf("absolute archive path %q: %w", archive.Name(), err)
-	}
 
 	fileProcessExecutor := func(file *pool.File) error {
 		err := a.compress(file)
@@ -158,14 +153,8 @@ func (a *archiver) archiveDir(root string) error {
 	return nil
 }
 
-// archiveFile enqueues file for archiving if it doesn't match
-// our output file.
+// archiveFile enqueues file for archiving
 func (a *archiver) archiveFile(file *pool.File) {
-	if file.Path == a.absoluteArchivePath {
-		// Don't archive the output file.
-		return
-	}
-
 	a.fileProcessPool.Enqueue(file)
 }
 

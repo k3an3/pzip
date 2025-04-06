@@ -1,7 +1,6 @@
 package pool
 
 import (
-	"archive/zip"
 	"bytes"
 	"fmt"
 	"io/fs"
@@ -10,6 +9,7 @@ import (
 	"sync"
 
 	"github.com/klauspost/compress/flate"
+	"github.com/klauspost/compress/zip"
 )
 
 const DefaultBufferSize = 2 * 1024 * 1024
